@@ -1,12 +1,20 @@
 import streamlit as st
 import pandas as pd
+import os
 
 # --- Fase 1: Estrutura Básica ---
 st.title('Dashboard de Vendas')
 
 @st.cache_data
 def carregar_dados():
-    df = pd.read_csv('vendas.csv', sep=';')
+    # Descobre o caminho da pasta onde este script está salvo
+    diretorio_atual = os.path.dirname(os.path.abspath(__file__))
+    
+    # Junta o caminho da pasta com o nome do arquivo CSV
+    caminho_arquivo = os.path.join(diretorio_atual, 'vendas.csv')
+    
+    # Lê o arquivo usando o caminho completo
+    df = pd.read_csv(caminho_arquivo, sep=';')
     if 'data_hora' in df.columns:
         df['mes'] = df['data_hora'].str[:7]
     return df
